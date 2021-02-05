@@ -1,16 +1,11 @@
 #include <new>
 #include <memory>
+#include <string>
 #include <vector>
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-//------------------------------------------------------------------------------
-extern "C" int _crt_atexit(void(*f)());
-extern "C" int atexit(void(*f)())
-{
-    return _crt_atexit(f);
-}
 //------------------------------------------------------------------------------
 extern "C" const int _fltused = 1;
 //------------------------------------------------------------------------------
@@ -137,6 +132,8 @@ void operator delete[](void* ptr, size_t size) noexcept
 //------------------------------------------------------------------------------
 #if defined(_LIBCPP_VERSION)
 _LIBCPP_BEGIN_NAMESPACE_STD
+    template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS __basic_string_common<true>;
+    template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS basic_string<char>;
     template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS __vector_base_common<true>;
     __shared_count::~__shared_count() {}
     __shared_weak_count::~__shared_weak_count() {}
