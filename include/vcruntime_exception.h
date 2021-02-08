@@ -13,7 +13,7 @@
     #include <vcruntime_new.h>
 #endif
 
-#if _VCRT_COMPILER_PREPROCESSOR && _HAS_EXCEPTIONS
+#if _VCRT_COMPILER_PREPROCESSOR
 
 #pragma pack(push, _CRT_PACKING)
 
@@ -145,4 +145,4 @@ public:
 
 #pragma pack(pop)
 
-#endif // _VCRT_COMPILER_PREPROCESSOR && _HAS_EXCEPTIONS
+#endif // _VCRT_COMPILER_PREPROCESSOR
