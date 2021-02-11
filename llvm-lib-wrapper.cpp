@@ -27,6 +27,18 @@ int main(int argc, char* argv[])
       i++;
       continue;
     }
+    if (strcmp(argv[i], "armv7") == 0)
+    {
+      continue;
+    }
+    if (strcmp(argv[i], "arm64") == 0)
+    {
+      continue;
+    }
+    if (strcmp(argv[i], "i686") == 0)
+    {
+      continue;
+    }
     if (strcmp(argv[i], "x86_64") == 0)
     {
       continue;
