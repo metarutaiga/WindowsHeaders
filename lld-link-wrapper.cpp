@@ -51,7 +51,9 @@ int main(int argc, char* argv[])
     }
     if (argv[i][0] == '-' && strstr(argv[i], ".dll"))
     {
+      args += "\"";
       args += argv[i];
+      args += "\"";
       args += " ";
       args += "-dll";
       args += " ";
