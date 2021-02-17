@@ -26,6 +26,9 @@ _CRT_BEGIN_C_HEADER
     }
 
     using ::std::nullptr_t;
+#if (__cplusplus >= 201103L)
+    typedef long double max_align_t;
+#endif
 #endif
 
 
