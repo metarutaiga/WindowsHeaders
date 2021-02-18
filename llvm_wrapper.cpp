@@ -15,6 +15,7 @@ extern "C" const int _fltused = 1;
 #pragma section(".CRT$XLA", long, read)
 #pragma section(".CRT$XLZ", long, read)
 #pragma section(".rdata$T", long, read)
+#pragma comment(linker, "/merge:.CRT=.rdata")
 extern "C" ULONG _tls_index = 0;
 extern "C" __declspec(allocate(".tls"))     char _tls_start = 0;
 extern "C" __declspec(allocate(".tls$ZZZ")) char _tls_end = 0;
@@ -37,6 +38,7 @@ extern "C" __declspec(allocate(".rdata$T")) const IMAGE_TLS_DIRECTORY _tls_used 
     (ULONG)0,
 };
 //------------------------------------------------------------------------------
+#ifndef _NO_DLLMAIN_
 #pragma section(".CRT$XCA", long, read)
 #pragma section(".CRT$XCZ", long, read)
 #pragma section(".CRT$XIA", long, read)
@@ -45,6 +47,7 @@ extern "C" __declspec(allocate(".rdata$T")) const IMAGE_TLS_DIRECTORY _tls_used 
 #pragma section(".CRT$XPZ", long, read)
 #pragma section(".CRT$XTA", long, read)
 #pragma section(".CRT$XTZ", long, read)
+#pragma comment(linker, "/merge:.CRT=.rdata")
 typedef void (*_PVFV)();
 extern "C" __declspec(allocate(".CRT$XCA")) const _PVFV __xc_a = 0;
 extern "C" __declspec(allocate(".CRT$XCZ")) const _PVFV __xc_z = 0;
@@ -54,7 +57,6 @@ extern "C" __declspec(allocate(".CRT$XPA")) const _PVFV __xp_a = 0;
 extern "C" __declspec(allocate(".CRT$XPZ")) const _PVFV __xp_z = 0;
 extern "C" __declspec(allocate(".CRT$XTA")) const _PVFV __xt_a = 0;
 extern "C" __declspec(allocate(".CRT$XTZ")) const _PVFV __xt_z = 0;
-#pragma comment(linker, "/merge:.CRT=.rdata")
 //------------------------------------------------------------------------------
 static void _initterm(const _PVFV* ppfn, const _PVFV* end)
 {
@@ -87,8 +89,9 @@ extern "C" BOOL WINAPI _DllMainCRTStartup(HANDLE handle, DWORD reason, LPVOID pr
     }
     return TRUE;
 }
+#endif
 //------------------------------------------------------------------------------
-#if defined(_HAVE_WINMAIN_)
+#ifdef _HAVE_WINMAIN_
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 extern "C" void wWinMainCRTStartup()
 {
