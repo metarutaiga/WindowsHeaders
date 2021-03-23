@@ -9,13 +9,14 @@
 
 #include <vcruntime.h>
 
+#pragma warning(push)
+#pragma warning(disable: _VCRUNTIME_DISABLED_WARNINGS)
+#pragma warning(disable: 4985) // attributes not present on previous declaration
+
 #ifdef __cplusplus
 extern "C++" {
 
 #pragma pack(push, _CRT_PACKING)
-
-#pragma warning(push)
-#pragma warning(disable: 4985) // attributes not present on previous declaration
 
 #pragma push_macro("new")
 #undef new
@@ -32,9 +33,7 @@ namespace std
     namespace std
     {
         struct nothrow_t {
-#ifndef _CRTBLD // TRANSITION, VSO#406237
             explicit nothrow_t() = default;
-#endif // _CRTBLD
         };
 
         #ifdef _CRT_ENABLE_SELECTANY_NOTHROW
@@ -53,7 +52,7 @@ void* __CRTDECL operator new(
 _NODISCARD _Ret_maybenull_ _Success_(return != NULL) _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new(
     size_t _Size,
-    std::nothrow_t const&
+    ::std::nothrow_t const&
     ) noexcept;
 
 _NODISCARD _Ret_notnull_ _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
@@ -64,7 +63,7 @@ void* __CRTDECL operator new[](
 _NODISCARD _Ret_maybenull_ _Success_(return != NULL) _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new[](
     size_t _Size,
-    std::nothrow_t const&
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete(
@@ -73,7 +72,7 @@ void __CRTDECL operator delete(
 
 void __CRTDECL operator delete(
     void* _Block,
-    std::nothrow_t const&
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete[](
@@ -82,7 +81,7 @@ void __CRTDECL operator delete[](
 
 void __CRTDECL operator delete[](
     void* _Block,
-    std::nothrow_t const&
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete(
@@ -98,63 +97,63 @@ void __CRTDECL operator delete[](
 #ifdef __cpp_aligned_new
 _NODISCARD _Ret_notnull_ _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new(
-    size_t           _Size,
-    std::align_val_t _Al
+    size_t             _Size,
+    ::std::align_val_t _Al
     );
 
 _NODISCARD _Ret_maybenull_ _Success_(return != NULL) _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new(
-    size_t                _Size,
-    std::align_val_t      _Al,
-    std::nothrow_t const&
+    size_t                  _Size,
+    ::std::align_val_t      _Al,
+    ::std::nothrow_t const&
     ) noexcept;
 
 
 _NODISCARD _Ret_notnull_ _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new[](
-    size_t           _Size,
-    std::align_val_t _Al
+    size_t             _Size,
+    ::std::align_val_t _Al
     );
 
 _NODISCARD _Ret_maybenull_ _Success_(return != NULL) _Post_writable_byte_size_(_Size) _VCRT_ALLOCATOR
 void* __CRTDECL operator new[](
-    size_t                _Size,
-    std::align_val_t      _Al,
-    std::nothrow_t const&
+    size_t                  _Size,
+    ::std::align_val_t      _Al,
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete(
-    void*            _Block,
-    std::align_val_t _Al
+    void*              _Block,
+    ::std::align_val_t _Al
     ) noexcept;
 
 void __CRTDECL operator delete(
-    void*                 _Block,
-    std::align_val_t      _Al,
-    std::nothrow_t const&
+    void*                   _Block,
+    ::std::align_val_t      _Al,
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete[](
-    void*            _Block,
-    std::align_val_t _Al
+    void*              _Block,
+    ::std::align_val_t _Al
     ) noexcept;
 
 void __CRTDECL operator delete[](
-    void*                 _Block,
-    std::align_val_t      _Al,
-    std::nothrow_t const&
+    void*                   _Block,
+    ::std::align_val_t      _Al,
+    ::std::nothrow_t const&
     ) noexcept;
 
 void __CRTDECL operator delete(
-    void*            _Block,
-    size_t           _Size,
-    std::align_val_t _Al
+    void*              _Block,
+    size_t             _Size,
+    ::std::align_val_t _Al
     ) noexcept;
 
 void __CRTDECL operator delete[](
-    void*            _Block,
-    size_t           _Size,
-    std::align_val_t _Al
+    void*              _Block,
+    size_t             _Size,
+    ::std::align_val_t _Al
     ) noexcept;
 #endif // __cpp_aligned_new
 
@@ -194,8 +193,9 @@ void __CRTDECL operator delete[](
 
 #pragma pop_macro("new")
 
-#pragma warning(pop)
 #pragma pack(pop)
 
 } // extern "C++"
 #endif // __cplusplus
+
+#pragma warning(pop) // _VCRUNTIME_DISABLED_WARNINGS

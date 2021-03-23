@@ -57,6 +57,9 @@
 #include <sal.h>
 #include <vadefs.h>
 
+#pragma warning(push)
+#pragma warning(disable: _VCRUNTIME_DISABLED_WARNINGS)
+
 // All C headers have a common prologue and epilogue, to enclose the header in
 // an extern "C" declaration when the header is #included in a C++ translation
 // unit and to push/pop the packing.
@@ -239,6 +242,10 @@ _CRT_BEGIN_C_HEADER
     #define _UNALIGNED
 #endif
 
+#if defined _M_ARM64EC
+    #define __security_check_cookie __security_check_cookie_arm64ec
+#endif
+
 #ifdef __cplusplus
     extern "C++"
     {
@@ -258,9 +265,11 @@ _CRT_BEGIN_C_HEADER
 #if !defined(_HAS_CXX17) && !defined(_HAS_CXX20)
     #if defined(_MSVC_LANG)
         #define _STL_LANG _MSVC_LANG
-    #else // ^^^ use _MSVC_LANG / use __cplusplus vvv
+    #elif defined(__cplusplus) // ^^^ use _MSVC_LANG / use __cplusplus vvv
         #define _STL_LANG __cplusplus
-    #endif // ^^^ use __cplusplus ^^^
+    #else  // ^^^ use __cplusplus / no C++ support vvv
+        #define _STL_LANG 0L
+    #endif // ^^^ no C++ support ^^^
 
     #if _STL_LANG > 201703L
         #define _HAS_CXX17 1
@@ -332,10 +341,13 @@ _CRT_BEGIN_C_HEADER
 #if !defined _M_CEE && !defined __midl
     void __cdecl __security_init_cookie(void);
 
-    #ifdef _M_IX86
+    #if defined(_M_IX86)
         void __fastcall __security_check_cookie(_In_ uintptr_t _StackCookie);
         __declspec(noreturn) void __cdecl __report_gsfailure(void);
-    #else  /* _M_IX86 */
+    #elif defined(_M_ARM64EC)
+        void __cdecl __security_check_cookie_arm64ec(_In_ uintptr_t _StackCookie);
+        __declspec(noreturn) void __cdecl __report_gsfailure(_In_ uintptr_t _StackCookie);
+    #else
         void __cdecl __security_check_cookie(_In_ uintptr_t _StackCookie);
         __declspec(noreturn) void __cdecl __report_gsfailure(_In_ uintptr_t _StackCookie);
     #endif
@@ -350,5 +362,7 @@ extern uintptr_t __security_cookie;
 #endif
 
 _CRT_END_C_HEADER
+
+#pragma warning(pop) // _VCRUNTIME_DISABLED_WARNINGS
 
 #endif // _VCRUNTIME_H

@@ -15,6 +15,9 @@
 
 #if _VCRT_COMPILER_PREPROCESSOR
 
+#pragma warning(push)
+#pragma warning(disable: _VCRUNTIME_DISABLED_WARNINGS)
+
 #pragma pack(push, _CRT_PACKING)
 
 _CRT_BEGIN_C_HEADER
@@ -145,4 +148,5 @@ public:
 
 #pragma pack(pop)
 
+#pragma warning(pop) // _VCRUNTIME_DISABLED_WARNINGS
 #endif // _VCRT_COMPILER_PREPROCESSOR
