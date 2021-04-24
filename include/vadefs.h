@@ -76,7 +76,7 @@ extern "C" {
 #ifdef __cplusplus
     #define _ADDRESSOF(v) (&const_cast<char&>(reinterpret_cast<const volatile char&>(v)))
 #else
-    #define _ADDRESSOF(v) (&(v))
+    #define _ADDRESSOF(v) ((char*)&(v))
 #endif
 
 #if (defined _M_ARM || defined _M_HYBRID_X86_ARM64) && !defined _M_CEE_PURE
