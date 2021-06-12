@@ -161,7 +161,7 @@ void operator delete[](void* ptr, size_t size, std::align_val_t) noexcept
 }
 #endif
 //------------------------------------------------------------------------------
-#if defined(_LIBCPP_VERSION)
+#if defined(_LIBCPP_VERSION) && !defined(_LIBCPP_BUILDING_LIBRARY)
 _LIBCPP_BEGIN_NAMESPACE_STD
     template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS __basic_string_common<true>;
     template class _LIBCPP_CLASS_TEMPLATE_INSTANTIATION_VIS basic_string<char>;
