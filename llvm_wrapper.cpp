@@ -197,3 +197,32 @@ _LIBCPP_BEGIN_NAMESPACE_STD
 _LIBCPP_END_NAMESPACE_STD
 #endif
 //------------------------------------------------------------------------------
+#if defined(_DEBUG)
+extern "C" int _chvalidator(int const c, int const mask)
+{
+    return __acrt_locale_get_ctype_array_value(__PCTYPE_FUNC, c, mask);
+}
+extern "C" int _chvalidator_l(_locale_t const locale, int const c, int const mask)
+{
+    if (locale)
+    {
+        return __acrt_locale_get_ctype_array_value(__acrt_get_locale_data_prefix(locale)->_locale_pctype, c, mask);
+    }
+    return __acrt_locale_get_ctype_array_value(__PCTYPE_FUNC, c, mask);
+}
+#endif
+//------------------------------------------------------------------------------
+extern "C" int __tlregdtor(void*)
+{
+    return 0;
+}
+//------------------------------------------------------------------------------
+extern "C" void* _CrtSetReportFile(int _ReportType, void* _ReportFile)
+{
+    return nullptr;
+}
+extern "C"  int _CrtSetReportMode(int _ReportType, int _ReportMode)
+{
+    return 0;
+}
+//------------------------------------------------------------------------------
