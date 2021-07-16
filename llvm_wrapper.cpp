@@ -38,6 +38,19 @@ extern "C" __declspec(allocate(".rdata$T")) const IMAGE_TLS_DIRECTORY _tls_used 
     (ULONG)0,
 };
 //------------------------------------------------------------------------------
+typedef void (*_PVFV)();
+extern "C" __declspec(allocate(".CRT$XDA")) const _PVFV __xd_a = 0;
+extern "C" __declspec(allocate(".CRT$XDZ")) const _PVFV __xd_z = 0;
+//------------------------------------------------------------------------------
+extern "C" void WINAPI __dyn_tls_init(PVOID, DWORD dwReason, LPVOID)
+{
+    for (const _PVFV* pfunc = &__xd_a + 1; pfunc != &__xd_z; ++pfunc)
+    {
+        if (*pfunc)
+            (*pfunc)();
+    }
+}
+//------------------------------------------------------------------------------
 #ifndef _NO_DLLMAIN_
 #pragma section(".CRT$XCA", long, read)
 #pragma section(".CRT$XCZ", long, read)
@@ -48,7 +61,6 @@ extern "C" __declspec(allocate(".rdata$T")) const IMAGE_TLS_DIRECTORY _tls_used 
 #pragma section(".CRT$XTA", long, read)
 #pragma section(".CRT$XTZ", long, read)
 #pragma comment(linker, "/merge:.CRT=.rdata")
-typedef void (*_PVFV)();
 extern "C" __declspec(allocate(".CRT$XCA")) const _PVFV __xc_a = 0;
 extern "C" __declspec(allocate(".CRT$XCZ")) const _PVFV __xc_z = 0;
 extern "C" __declspec(allocate(".CRT$XIA")) const _PVFV __xi_a = 0;
