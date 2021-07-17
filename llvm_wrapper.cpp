@@ -51,6 +51,10 @@ extern "C" void WINAPI __dyn_tls_init(PVOID, DWORD dwReason, LPVOID)
     }
 }
 //------------------------------------------------------------------------------
+#if defined(_M_IX86)
+#pragma comment(linker, "/alternatename:__CxxThrowException@8=__CxxThrowException")
+#endif
+//------------------------------------------------------------------------------
 #ifndef _NO_DLLMAIN_
 #pragma section(".CRT$XCA", long, read)
 #pragma section(".CRT$XCZ", long, read)
